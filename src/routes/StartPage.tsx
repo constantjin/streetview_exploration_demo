@@ -1,4 +1,12 @@
+import { useState } from 'react';
+
+import { cityLatLngPairs } from '../constants';
+import LabeledInput from '../components/LabeledInput';
+import CityPicker from '../components/CityPicker';
+
 export default function StartPage() {
+  const [showCoordinateMenu, setShowCoordinateMenu] = useState(false);
+
   return (
     <div className="flex flex-col">
       <div className="text-white mb-6">
@@ -10,39 +18,41 @@ export default function StartPage() {
 
       <hr className="mb-6" />
 
-      <div className="flex items-center mb-1">
-        <div className="w-1/3">
-          <label className="block text-white font-bold text-left mb-1 mb-0 pr-4">
-            Google Map API key
-          </label>
-        </div>
-        <div className="w-2/3">
-          <input
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
-            type="text"
-            placeholder="Google Map API key"
-          />
-        </div>
-      </div>
+      <LabeledInput
+        label="Google Map API Key"
+        type="text"
+        placeholder="Google Map API key"
+        className="mb-1"
+      />
       <p className="text-red-400 text-right hover:underline mb-6">
         Delete stored API key
       </p>
 
-      <div className="flex items-center mb-6">
-        <div className="w-1/3">
-          <label className="block text-white font-bold text-left mb-1 mb-0 pr-4">
-            City
-          </label>
+      {showCoordinateMenu ? (
+        <div className="mb-1">
+          <LabeledInput
+            label="Lat"
+            type="number"
+            placeholder="Latitude"
+            className="mb-4"
+          />
+
+          <LabeledInput label="Lng" type="number" placeholder="Longitude" />
         </div>
-        <div className="w-2/3">
-          <select className="bg-gray-200 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500">
-            <option value={'New York'}>New York</option>
-            <option value={'Boston'}>Boston</option>
-            <option value={'Los Angeles'}>Los Angeles</option>
-            <option value={'London'}>London</option>
-            <option value={'Paris'}>Paris</option>
-          </select>
-        </div>
+      ) : (
+        <CityPicker cityList={cityLatLngPairs} className="mb-1" />
+      )}
+
+      <div className="text-white text-right mb-6">
+        <label>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={showCoordinateMenu}
+            onChange={() => setShowCoordinateMenu(!showCoordinateMenu)}
+          />
+          Set coordinates?
+        </label>
       </div>
 
       <hr className="mb-6" />
