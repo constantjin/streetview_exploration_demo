@@ -17,7 +17,7 @@ export default function StartPage() {
   const [showCoordinateMenu, setShowCoordinateMenu] = useState(false);
 
   // States for Street View exploration
-  const [googleMapsApikey, setGoogleMapsApiKey] = useAtom(googleMapsApiKeyAtom);
+  const [googleMapsApiKey, setGoogleMapsApiKey] = useAtom(googleMapsApiKeyAtom);
   const [initialLocation, setInitialLocation] = useAtom(initialLocationAtom);
   const [initialLocationLat, setInitialLocationLat] = useAtom(
     initialLocationLatAtom,
@@ -25,6 +25,26 @@ export default function StartPage() {
   const [initialLocationLng, setInitialLocationLng] = useAtom(
     initialLocationLngAtom,
   );
+
+  // Validate inputs before start
+  const [validationErrorMessage, setValidationErrorMessage] = useState('');
+
+  const validateInputBeforeStart = () => {
+    if (googleMapsApiKey === '') {
+      setValidationErrorMessage('Google Maps API key is empty');
+    } else if (
+      initialLocationLat < -90 ||
+      initialLocationLat > 90 ||
+      initialLocationLng < -180 ||
+      initialLocationLng > 180
+    ) {
+      setValidationErrorMessage('Latitude/longitude is invalid');
+    } else {
+      setValidationErrorMessage('');
+      console.log(googleMapsApiKey);
+      console.log(initialLocation);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -38,11 +58,11 @@ export default function StartPage() {
       <hr className="mb-6" />
 
       <LabeledInput
-        label="Google Map API Key"
+        label="Google Maps API Key"
         type="text"
-        placeholder="Google Map API key"
+        placeholder="Google Maps API key"
         className="mb-1"
-        value={googleMapsApikey}
+        value={googleMapsApiKey}
         onChange={(event) => {
           setGoogleMapsApiKey(event.target.value);
         }}
@@ -57,20 +77,39 @@ export default function StartPage() {
       {showCoordinateMenu ? (
         <div className="mb-1">
           <LabeledInput
-            label="Lat"
+            label="Latitude"
             type="number"
             placeholder="Latitude"
-            value={initialLocation.latlng.lat}
+            value={initialLocationLat}
             onChange={(event) => {
               setInitialLocationLat(Number(event.target.value));
             }}
             className="mb-4"
           />
 
-          <LabeledInput label="Lng" type="number" placeholder="Longitude" />
+          <LabeledInput
+            label="Longitude"
+            type="number"
+            placeholder="Longitude"
+            value={initialLocationLng}
+            onChange={(event) => {
+              setInitialLocationLng(Number(event.target.value));
+            }}
+          />
         </div>
       ) : (
-        <CityPicker cityList={cityLatLngPairs} className="mb-1" />
+        <CityPicker
+          cityList={cityLatLngPairs}
+          className="mb-1"
+          value={initialLocation.city}
+          onChange={(event) => {
+            const newInitialLocation =
+              cityLatLngPairs.find(
+                (pair) => pair.city === event.target.value,
+              ) ?? cityLatLngPairs[0];
+            setInitialLocation(newInitialLocation);
+          }}
+        />
       )}
 
       <div className="text-white text-right mb-6">
@@ -79,15 +118,32 @@ export default function StartPage() {
             type="checkbox"
             className="mr-2"
             checked={showCoordinateMenu}
-            onChange={() => setShowCoordinateMenu(!showCoordinateMenu)}
+            onChange={() => {
+              if (showCoordinateMenu) {
+                // CoordinateMenu -> CityPicker; initialize with the first city
+                setInitialLocation(cityLatLngPairs[0]);
+              } else {
+                // CityPicker -> CoordinateMenu; Tag an arbitrary city name
+                setInitialLocation({ ...initialLocation, city: 'Coordinates' });
+              }
+              // Toggle Coordinate Menu
+              setShowCoordinateMenu(!showCoordinateMenu);
+            }}
           />
           Set coordinates?
         </label>
       </div>
 
-      <hr className="mb-6" />
-
-      <p className="text-bold text-2xl text-white text-right hover:text-yellow-500">
+      <hr className="mb-4" />
+      {validationErrorMessage !== '' && (
+        <p className="text-red-500 text-right mb-2">
+          ❌ {validationErrorMessage}
+        </p>
+      )}
+      <p
+        className="text-bold text-2xl text-white text-right hover:text-yellow-500 cursor-pointer"
+        onClick={validateInputBeforeStart}
+      >
         » ✈️ Explore
       </p>
     </div>
