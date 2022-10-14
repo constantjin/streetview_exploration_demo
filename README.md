@@ -10,6 +10,10 @@ Demo for Google Street View control (and capture) with a keyboard.
 
 ## miscellaneous
 
+### Eslint, Prettier configurations
+
+- [WONILLISM's Blog](https://wonillism.tistory.com/271)
+
 ### Favicon
 
 - Downloaded from [favicon.io](https://favicon.io/emoji-favicons/world-map).
