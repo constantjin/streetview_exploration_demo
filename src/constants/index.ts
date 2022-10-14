@@ -35,3 +35,18 @@ export const cityLatLngPairs: ICityLatLngPair[] = [
     },
   },
 ];
+
+export const initialPov = {
+  heading: 34,
+  pitch: 0,
+};
+
+export const initialControlOptions: google.maps.StreetViewPanoramaOptions = {
+  panControl: false,
+  clickToGo: false,
+  disableDoubleClickZoom: true,
+  scrollwheel: false,
+  linksControl: true,
+  showRoadLabels: false,
+  disableDefaultUI: true,
+};

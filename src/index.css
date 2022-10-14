@@ -13,3 +13,18 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/* hide the Google Map-related footer. */
+a[href^="http://maps.google.com/maps"],a[href^="https://maps.google.com/maps"]
+{
+  display: none !important;
+}
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+  display: none;
+}
+.gmnoprint div {
+  background: none !important;
+  display: none !important;
+}

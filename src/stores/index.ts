@@ -16,3 +16,7 @@ export const initialLocationLatAtom = focusAtom(initialLocationAtom, (optic) =>
 export const initialLocationLngAtom = focusAtom(initialLocationAtom, (optic) =>
   optic.prop('latlng').prop('lng'),
 );
+
+export const streetViewRefAtom = atom<
+  undefined | google.maps.StreetViewPanorama
+>(undefined);

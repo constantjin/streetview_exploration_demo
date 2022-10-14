@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import { cityLatLngPairs } from '../constants';
@@ -43,8 +44,12 @@ export default function StartPage() {
       setValidationErrorMessage('');
       console.log(googleMapsApiKey);
       console.log(initialLocation);
+      navigate('/explore');
     }
   };
+
+  // Constants / hooks
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col">
