@@ -1059,7 +1059,7 @@ esbuild-windows-arm64@0.15.10:
   resolved "https://registry.yarnpkg.com/esbuild-windows-arm64/-/esbuild-windows-arm64-0.15.10.tgz#5a6fcf2fa49e895949bf5495cf088ab1b43ae879"
   integrity sha512-S+th4F+F8VLsHLR0zrUcG+Et4hx0RKgK1eyHc08kztmLOES8BWwMiaGdoW9hiXuzznXQ0I/Fg904MNbr11Nktw==
 
-esbuild@^0.15.9:
+esbuild@^0.15.6:
   version "0.15.10"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.15.10.tgz#85c2f8446e9b1fe04fae68daceacba033eedbd42"
   integrity sha512-N7wBhfJ/E5fzn/SpNgX+oW2RLRjwaL8Y0ezqNqhjD6w0H2p0rDuEz2FKZqpqLnO8DCaWumKe8dsC/ljvVSSxng==
@@ -1965,6 +1965,11 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
+optics-ts@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/optics-ts/-/optics-ts-2.3.0.tgz#5478da5a2ec46550093dfadd15d6bd87d957e925"
+  integrity sha512-iu6//uEMAKsowlq7hd8pNTc43KOjxMPW60BBA8DIt0q311iiOaWPilMHGOyCDvQ7llRutwlCkGX6e4HnUD0ARg==
+
 optionator@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/optionator/-/optionator-0.9.1.tgz#4f236a6373dae0566a6d43e1326674f50c291499"
@@ -2524,12 +2529,12 @@ vite-tsconfig-paths@^3.5.1:
     recrawl-sync "^2.0.3"
     tsconfig-paths "^4.0.0"
 
-vite@^3.1.0:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-3.1.8.tgz#fa29144167d19b773baffd65b3972ea4c12359c9"
-  integrity sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==
+vite@3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-3.1.4.tgz#b75824b819d8354a6f36e4b988943c7e4947e155"
+  integrity sha512-JoQI08aBjY9lycL7jcEq4p9o1xUjq5aRvdH4KWaXtkSx7e7RpAh9D3IjzDWRD4Fg44LS3oDAIOG/Kq1L+82psA==
   dependencies:
-    esbuild "^0.15.9"
+    esbuild "^0.15.6"
     postcss "^8.4.16"
     resolve "^1.22.1"
     rollup "~2.78.0"

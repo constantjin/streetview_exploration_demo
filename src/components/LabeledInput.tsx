@@ -3,6 +3,8 @@ interface ILabeledInputProps {
   type: string;
   placeholder: string;
   className?: string;
+  value?: any;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export default function LabeledInput(props: ILabeledInputProps) {
@@ -18,6 +20,8 @@ export default function LabeledInput(props: ILabeledInputProps) {
           className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-500"
           type={props.type}
           placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
         />
       </div>
     </div>
