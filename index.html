@@ -8,6 +8,18 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      HTMLCanvasElement.prototype.getContext = function(origFn) {
+        return function(type, attribs) {
+          attribs = attribs || {};
+          attribs.preserveDrawingBuffer = true;
+          return origFn.call(this, type, attribs);
+        };
+      }(HTMLCanvasElement.prototype.getContext);
+
+      // Reference
+      // https://stackoverflow.com/questions/55760121/html2canvas-captures-everything-except-the-content-of-an-inner-canvas
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
