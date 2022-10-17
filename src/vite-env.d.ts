@@ -21,4 +21,5 @@ type ControllerAction =
 interface IActionHandlerOptions {
   headingChangeAmount: number;
   headingChangeIntervalInMs: number;
+  linkChangeIntervalInMs: number;
 }

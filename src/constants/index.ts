@@ -54,4 +54,5 @@ export const initialControlOptions: google.maps.StreetViewPanoramaOptions = {
 export const actionHandlerOptions: IActionHandlerOptions = {
   headingChangeAmount: 0.8,
   headingChangeIntervalInMs: 20,
+  linkChangeIntervalInMs: 1000,
 };
