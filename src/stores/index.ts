@@ -17,6 +17,10 @@ export const initialLocationLngAtom = focusAtom(initialLocationAtom, (optic) =>
   optic.prop('latlng').prop('lng'),
 );
 
+// Store current controller action
+export const controllerActionAtom = atom<ControllerAction>('stopAction');
+
+// Store reference of a new StreetViewPanorama object
 export const streetViewRefAtom = atom<
   undefined | google.maps.StreetViewPanorama
 >(undefined);

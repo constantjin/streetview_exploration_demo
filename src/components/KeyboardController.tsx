@@ -1,22 +1,29 @@
 import { useEffect } from 'react';
+import { useSetAtom } from 'jotai';
+
+import { controllerActionAtom } from '../stores';
 
 export default function KeyboardController() {
+  const setControllerAction = useSetAtom(controllerActionAtom);
+
   const keyboardInputToAction = (event: KeyboardEvent) => {
     switch (event.code) {
+      // The heading (StreetViewPov.heading) will change, rather than the entire StreetViewPov object
+      // Should rename fovToLeft(Right) -> headingToLeft(Right)
       case 'KeyA':
-        console.log('fovToLeft');
+        setControllerAction('headingToLeft');
         break;
       case 'KeyD':
-        console.log('fovToRight');
+        setControllerAction('headingToRight');
         break;
       case 'KeyW':
-        console.log('fowardToLink');
+        setControllerAction('fowardToLink');
         break;
       case 'KeyS':
-        console.log('backwardToLink');
+        setControllerAction('backwardToLink');
         break;
       case 'KeyF':
-        console.log('captureScene');
+        setControllerAction('captureScene');
         break;
     }
   };
@@ -28,7 +35,7 @@ export default function KeyboardController() {
       case 'KeyW':
       case 'KeyS':
       case 'KeyF':
-        console.log('stop');
+        setControllerAction('stopAction');
         break;
     }
   };
@@ -38,6 +45,8 @@ export default function KeyboardController() {
     document.addEventListener('keyup', resetActionOnRelease);
 
     return () => {
+      // Set the controller action to 'stop' on destroy of this component
+      setControllerAction('stopAction');
       document.removeEventListener('keydown', keyboardInputToAction);
       document.removeEventListener('keyup', resetActionOnRelease);
     };

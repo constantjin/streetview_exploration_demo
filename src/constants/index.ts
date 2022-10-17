@@ -36,7 +36,7 @@ export const cityLatLngPairs: ICityLatLngPair[] = [
   },
 ];
 
-export const initialPov = {
+export const initialPov: google.maps.StreetViewPov = {
   heading: 34,
   pitch: 0,
 };
@@ -49,4 +49,9 @@ export const initialControlOptions: google.maps.StreetViewPanoramaOptions = {
   linksControl: true,
   showRoadLabels: false,
   disableDefaultUI: true,
+};
+
+export const actionHandlerOptions: IActionHandlerOptions = {
+  headingChangeAmount: 0.8,
+  headingChangeIntervalInMs: 20,
 };

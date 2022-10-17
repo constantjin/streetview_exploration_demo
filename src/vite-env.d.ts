@@ -9,3 +9,16 @@ interface ICityLatLngPair {
   city: string;
   latlng: ILatLng;
 }
+
+type ControllerAction =
+  | 'stopAction'
+  | 'fowardToLink'
+  | 'backwardToLink'
+  | 'headingToLeft'
+  | 'headingToRight'
+  | 'captureScene';
+
+interface IActionHandlerOptions {
+  headingChangeAmount: number;
+  headingChangeIntervalInMs: number;
+}
