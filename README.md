@@ -2,6 +2,8 @@
 
 ## Introduction
 
+[Try this demo! (Google Maps API key is needed)](https://constantjin.github.io/streetview_exploration_demo/)
+
 Demo for Google Street View control (and capture) with a keyboard.
 
 - W/D keys to control the viewpoint (heading).
