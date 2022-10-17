@@ -5,12 +5,13 @@ import {
 } from '@googlemaps/react-wrapper';
 import { useAtomValue } from 'jotai';
 
-import { googleMapsApiKeyAtom } from '../stores';
+import { googleMapsApiKeyAtom, sceneCapturedAtom } from '../stores';
 
 import StreetViewLoading from '../components/StreetViewLoading';
 import StreetViewError from '../components/StreetViewError';
 import StreetView from '../components/StreetView';
 import KeyboardController from '../components/KeyboardController';
+import CapturePreview from '../components/CapturePreview';
 
 const renderMapComponentsByStatus = (status: GoogleMapStatus) => {
   if (status === GoogleMapStatus.FAILURE) {
@@ -21,6 +22,7 @@ const renderMapComponentsByStatus = (status: GoogleMapStatus) => {
 
 export default function Exploration() {
   const googleMapsApiKey = useAtomValue(googleMapsApiKeyAtom);
+  const sceneCaptured = useAtomValue(sceneCapturedAtom);
 
   return (
     <div>
@@ -32,7 +34,7 @@ export default function Exploration() {
         render={renderMapComponentsByStatus}
       >
         <StreetView />
-        <KeyboardController />
+        {sceneCaptured ? <CapturePreview /> : <KeyboardController />}
       </GoogleMapWrapper>
     </div>
   );

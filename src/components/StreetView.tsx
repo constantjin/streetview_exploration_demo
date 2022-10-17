@@ -12,6 +12,7 @@ import {
   streetViewRefAtom,
   controllerActionAtom,
   base64EncodedImageAtom,
+  sceneCapturedAtom,
 } from '../stores';
 import { delay } from '../utils';
 
@@ -27,6 +28,10 @@ export default function StreetView() {
   const streetViewRef = useAtomValue(streetViewRefAtom);
   const setStreetViewRef = useSetAtom(streetViewRefAtom);
   const setBase64EncodedImage = useSetAtom(base64EncodedImageAtom);
+
+  // Toggle Street View visible state
+  const sceneCaptured = useAtomValue(sceneCapturedAtom);
+  const setSceneCaptured = useSetAtom(sceneCapturedAtom);
 
   // Helper functions for timer
 
@@ -187,6 +192,7 @@ export default function StreetView() {
     });
 
     setBase64EncodedImage(base64EncodedImageString);
+    setSceneCaptured(true); // Show the CapturePreview component
   };
 
   // useEffect: initialize Street View on mount
@@ -245,6 +251,7 @@ export default function StreetView() {
       ref={streetViewDivRef}
       id="streetview"
       style={{ width: '800px', height: '600px' }}
+      className={sceneCaptured ? 'hidden' : ''}
     />
   );
 }
