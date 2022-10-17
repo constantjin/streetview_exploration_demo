@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import html2canvas from 'html2canvas';
 
 import {
   initialPov,
@@ -10,7 +11,9 @@ import {
   initialLocationAtom,
   streetViewRefAtom,
   controllerActionAtom,
+  base64EncodedImageAtom,
 } from '../stores';
+import { delay } from '../utils';
 
 export default function StreetView() {
   const streetViewDivRef = useRef<HTMLDivElement>(null);
@@ -23,6 +26,7 @@ export default function StreetView() {
 
   const streetViewRef = useAtomValue(streetViewRefAtom);
   const setStreetViewRef = useSetAtom(streetViewRefAtom);
+  const setBase64EncodedImage = useSetAtom(base64EncodedImageAtom);
 
   // Helper functions for timer
 
@@ -149,6 +153,42 @@ export default function StreetView() {
   const handleForwardToLink = handleLinkChange();
   const handleBackwardToLink = handleLinkChange({ backward: true });
 
+  // Async handler function for the captureScene action
+  // Note that this handler should run only once for each capture.
+  // Therefore it does not use the timer (setActionInterval)
+  const handleCaptureScene = async () => {
+    resetActionInterval(); // Reset ongoing action
+
+    // If the Street View Div container is unset (unloaded Street View), we cannot capture the scene image
+    // Notify error in the Dev console and quit the function
+    if (!streetViewDivRef.current) {
+      console.error(
+        '[StreetView:handleCaptureScene] Street View Div container is unset or undefined.',
+      );
+      return;
+    }
+
+    // Temporarily hide the linksControl UI before capture
+    streetViewRef?.setOptions({
+      linksControl: false,
+    });
+    await delay(50);
+
+    // Capture the Div container using html2canvas, then encode the captured canvas as a base64 string
+    const capturedCanvas = await html2canvas(streetViewDivRef.current, {
+      useCORS: true,
+      backgroundColor: null,
+    });
+    const base64EncodedImageString = capturedCanvas.toDataURL('image/png', 1.0);
+
+    // Show the linksControl UI after capture
+    streetViewRef?.setOptions({
+      linksControl: true,
+    });
+
+    setBase64EncodedImage(base64EncodedImageString);
+  };
+
   // useEffect: initialize Street View on mount
   useEffect(() => {
     setStreetViewRef(
@@ -193,6 +233,9 @@ export default function StreetView() {
           handleBackwardToLink,
           actionHandlerOptions.linkChangeIntervalInMs,
         );
+        break;
+      case 'captureScene':
+        handleCaptureScene();
         break;
     }
   }, [controllerAction]);

@@ -24,3 +24,6 @@ export const controllerActionAtom = atom<ControllerAction>('stopAction');
 export const streetViewRefAtom = atom<
   undefined | google.maps.StreetViewPanorama
 >(undefined);
+
+// Store base64-encoded string for the captured image
+export const base64EncodedImageAtom = atom<string | undefined>(undefined);
