@@ -4,9 +4,19 @@
 
 Demo for Google Street View control (and capture) with a keyboard.
 
-- W/D keys to control the viewpoint.
+- W/D keys to control the viewpoint (heading).
 - A/S keys to move forward(backward) following the link arrows in the map.
 - F key to capture the current scene as an image.
+- You need to generate a **Google Maps API key** beforehand for this demo
+  - You can follow [this guide](https://developers.google.com/maps/documentation/javascript/get-api-key) to generate Google Maps API key.
+
+This demo is built on **[React](https://reactjs.org/) + Typescript** and bundled using [**Vite**](https://github.com/vitejs/vite).
+Followings are the package that helped me _a lot_ for this project:
+
+- [React Router v6](https://github.com/remix-run/react-router)
+- [Jotai](https://github.com/pmndrs/jotai)
+- [optic-ts](https://github.com/akheron/optics-ts)
+- [@googlemaps/react-wrapper](https://github.com/googlemaps/react-wrapper)
 
 ## miscellaneous
 
