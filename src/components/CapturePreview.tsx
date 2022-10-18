@@ -23,8 +23,8 @@ export default function CapturePreview() {
 
   return (
     <div className="flex flex-col items-center">
+      <p className="text-white text-xl mb-2">Press [ESC] to exit preview</p>
       {base64EncodedImage && <img src={base64EncodedImage} />}
-      <p className="text-white text-xl mt-2">Press [ESC] to exit preview</p>
     </div>
   );
 }

@@ -1,11 +1,16 @@
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Wrapper as GoogleMapWrapper,
   Status as GoogleMapStatus,
 } from '@googlemaps/react-wrapper';
 import { useAtomValue } from 'jotai';
 
-import { googleMapsApiKeyAtom, sceneCapturedAtom } from '../stores';
+import {
+  googleMapsApiKeyAtom,
+  sceneCapturedAtom,
+  initialLocationAtom,
+  streetViewRefAtom,
+} from '../stores';
 
 import StreetViewLoading from '../components/StreetViewLoading';
 import StreetViewError from '../components/StreetViewError';
@@ -24,8 +29,31 @@ export default function Exploration() {
   const googleMapsApiKey = useAtomValue(googleMapsApiKeyAtom);
   const sceneCaptured = useAtomValue(sceneCapturedAtom);
 
+  const initialLocation = useAtomValue(initialLocationAtom);
+  const streetViewRef = useAtomValue(streetViewRefAtom);
+
+  const navigate = useNavigate();
+
+  const handleNewCity = () => {
+    navigate('/');
+  };
+
+  const handleInitialLocation = () => {
+    // Run only when the Street View was initialized
+    if (streetViewRef) {
+      streetViewRef.setPosition(initialLocation.latlng);
+    }
+  };
+
   return (
     <div>
+      <p
+        className={`font-light text-white text-center mb-2 ${
+          sceneCaptured && 'hidden'
+        }`}
+      >
+        ⌨ [A / D / W / S / F] = ⬅ / ➡ / ⬆ / ⬇ / 📷
+      </p>
       <GoogleMapWrapper
         apiKey={googleMapsApiKey}
         version="weekly"
@@ -36,6 +64,28 @@ export default function Exploration() {
         <StreetView />
         {sceneCaptured ? <CapturePreview /> : <KeyboardController />}
       </GoogleMapWrapper>
+      {sceneCaptured || (
+        <div className="flex flex-row justify-between mt-2">
+          <p className="text-white">
+            ✈{' '}
+            <span
+              className="hover:underline cursor-pointer"
+              onClick={handleNewCity}
+            >
+              New city
+            </span>
+          </p>
+          <p className="text-white">
+            🚩
+            <span
+              className="hover:underline cursor-pointer"
+              onClick={handleInitialLocation}
+            >
+              Initial location
+            </span>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
