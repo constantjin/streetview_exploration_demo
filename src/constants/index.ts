@@ -2,8 +2,8 @@ export const cityLatLngPairs: ICityLatLngPair[] = [
   {
     city: 'New York',
     latlng: {
-      lat: 42.359730801517095,
-      lng: -71.05978092045854,
+      lat: 40.712870223889766,
+      lng: -74.00740228793312,
     },
   },
   {
