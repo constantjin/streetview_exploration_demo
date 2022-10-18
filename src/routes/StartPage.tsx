@@ -151,6 +151,14 @@ export default function StartPage() {
       >
         » ✈️ Explore
       </p>
+      <p className="font-thin text-white text-left mt-2 hover:underline">
+        <a
+          href="https://github.com/constantjin/streetview_exploration_demo"
+          target="_blank"
+        >
+          🔗Github
+        </a>
+      </p>
     </div>
   );
 }
