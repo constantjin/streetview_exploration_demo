@@ -23,3 +23,12 @@ interface IActionHandlerOptions {
   headingChangeIntervalInMs: number;
   linkChangeIntervalInMs: number;
 }
+
+interface IStreetViewComment {
+  timestamp: number;
+  id: string;
+  city: string;
+  comment: string;
+  latLngString: string;
+  heading: number;
+}

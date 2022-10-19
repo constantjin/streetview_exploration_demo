@@ -30,3 +30,9 @@ export const base64EncodedImageAtom = atom<string | undefined>(undefined);
 
 // Store to toggle CapturePreview component
 export const sceneCapturedAtom = atom<boolean>(false);
+
+// Store for Street View comments
+export const streetViewCommentListAtom = atomWithStorage<IStreetViewComment[]>(
+  'streetViewComments',
+  [],
+);
