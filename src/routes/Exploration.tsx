@@ -45,6 +45,10 @@ export default function Exploration() {
     }
   };
 
+  const handleManageComment = () => {
+    navigate('/comments');
+  };
+
   return (
     <div>
       <p
@@ -65,25 +69,38 @@ export default function Exploration() {
         {sceneCaptured ? <CapturePreview /> : <KeyboardController />}
       </GoogleMapWrapper>
       {sceneCaptured || (
-        <div className="flex flex-row justify-between mt-2">
-          <p className="text-white">
-            ✈{' '}
-            <span
-              className="hover:underline cursor-pointer"
-              onClick={handleNewCity}
-            >
-              New city
-            </span>
-          </p>
-          <p className="text-white">
-            🚩
-            <span
-              className="hover:underline cursor-pointer"
-              onClick={handleInitialLocation}
-            >
-              Initial location
-            </span>
-          </p>
+        <div className="flex flex-col">
+          <div className="flex flex-row justify-between mt-2">
+            <p className="text-white">
+              ✈{' '}
+              <span
+                className="hover:underline cursor-pointer"
+                onClick={handleNewCity}
+              >
+                New city
+              </span>
+            </p>
+            <p className="text-white">
+              🚩
+              <span
+                className="hover:underline cursor-pointer"
+                onClick={handleInitialLocation}
+              >
+                Initial location
+              </span>
+            </p>
+          </div>
+          <div className="w-full mt-2">
+            <p className="text-white text-right">
+              📖{' '}
+              <span
+                className="hover:underline cursor-pointer"
+                onClick={handleManageComment}
+              >
+                Manage comments
+              </span>
+            </p>
+          </div>
         </div>
       )}
     </div>
