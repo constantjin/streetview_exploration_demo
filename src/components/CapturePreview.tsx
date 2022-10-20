@@ -19,6 +19,7 @@ export default function CapturePreview() {
     comment: '',
   });
   const [validationErrorMessage, setValidationErrorMessage] = useState('');
+  const [showSavedMessage, toggleSavedMessage] = useState(false);
   const setStreetViewCommentList = useSetAtom(streetViewCommentListAtom);
   const streetViewRef = useAtomValue(streetViewRefAtom);
   const initialLocation = useAtomValue(initialLocationAtom);
@@ -42,7 +43,8 @@ export default function CapturePreview() {
   const validateCommentSubmit = (
     event: React.KeyboardEvent<HTMLDivElement>,
   ) => {
-    if (event.key === 'Enter') {
+    // Do not validate/save comment when the 'Saved' message appears
+    if (event.key === 'Enter' && !showSavedMessage) {
       if (commentData.id === '') {
         setValidationErrorMessage('ID is empty');
       } else if (commentData.comment === '') {
@@ -61,6 +63,11 @@ export default function CapturePreview() {
             'Street View error(s). Please refresh this page',
           );
         } else {
+          setCommentData({ id: '', comment: '' }); // Reset the input field
+          toggleSavedMessage(true); // Show the 'Saved' message;
+          setTimeout(() => {
+            toggleSavedMessage(false);
+          }, 1500); // Hide the Saved message after 1.5 s
           setStreetViewCommentList((commentList) => [
             ...commentList,
             {
@@ -72,7 +79,6 @@ export default function CapturePreview() {
               heading,
             },
           ]);
-          setCommentData({ id: '', comment: '' }); // Reset the input field
         }
       }
     }
@@ -122,6 +128,9 @@ export default function CapturePreview() {
           <p className="text-red-500 text-right mb-1">
             ❌ {validationErrorMessage}
           </p>
+        )}
+        {showSavedMessage && (
+          <p className="text-green-500 text-right mb-1">✔ Saved</p>
         )}
         <p className="text-white">↳ [Enter] to leave a comment</p>
       </div>
