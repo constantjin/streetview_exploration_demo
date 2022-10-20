@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   createColumnHelper,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  Row,
+  Table,
   useReactTable,
 } from '@tanstack/react-table';
 import dayjs from 'dayjs';
@@ -15,17 +17,52 @@ import { streetViewCommentListAtom } from '../stores';
 import CommentsTable from '../components/CommentsTable';
 import ColumnVisibilityControl from '../components/ColumnVisibilityControl';
 import PaginationControl from '../components/PaginationControl';
+import IndeterminateCheckbox from '../components/IndeterminateCheckbox';
 
 export default function Comments() {
   const streetViewCommentList = useAtomValue(streetViewCommentListAtom);
-  const sortedStreetViewCommentList = streetViewCommentList.sort(
-    // Sort comments by timestamp in a decending order (lastest one goes first)
-    (comment1, comment2) =>
-      dayjs(comment2.timestamp).isAfter(dayjs(comment1.timestamp)) ? 1 : -1,
+  const setStreetViewCommentList = useSetAtom(streetViewCommentListAtom);
+  // Sort the comment list only when streetViewCommentList changes
+  const sortedStreetViewCommentList = useMemo(
+    () =>
+      streetViewCommentList.sort(
+        // Sort comments by timestamp in a decending order (lastest one goes first)
+        (comment1, comment2) =>
+          dayjs(comment2.timestamp).isAfter(dayjs(comment1.timestamp)) ? 1 : -1,
+      ),
+    [streetViewCommentList],
   );
+  // State to store selected rows in the table
+  const [rowSelection, setRowSelection] = useState({});
 
   const columnHelper = createColumnHelper<IStreetViewComment>();
   const commentColumns = [
+    // Include 'select' column
+    // Reference: https://tanstack.com/table/v8/docs/examples/react/row-selection
+    {
+      id: 'select',
+      header: ({ table }: { table: Table<any> }) => (
+        <IndeterminateCheckbox
+          {...{
+            checked: table.getIsAllRowsSelected(),
+            indeterminate: table.getIsSomeRowsSelected(),
+            onChange: table.getToggleAllRowsSelectedHandler(),
+          }}
+        />
+      ),
+      cell: ({ row }: { row: Row<any> }) => (
+        <div className="px-1">
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        </div>
+      ),
+      size: 30,
+    },
     columnHelper.accessor('id', {
       header: () => <span>ID</span>,
       cell: (info) => info.getValue(),
@@ -51,7 +88,7 @@ export default function Comments() {
     columnHelper.accessor('heading', {
       header: () => <span>Heading</span>,
       cell: (info) => info.getValue(),
-      size: 150,
+      size: 80,
       enableColumnFilter: false,
     }),
   ];
@@ -59,6 +96,10 @@ export default function Comments() {
   const commentsTable = useReactTable({
     data: sortedStreetViewCommentList,
     columns: commentColumns,
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -68,6 +109,17 @@ export default function Comments() {
 
   const handleReturnToExploration = () => {
     navigate('/explore');
+  };
+
+  const handleDeleteSelected = () => {
+    const selectedIndices = Object.keys(rowSelection).map((key) => Number(key));
+    // Filter should be done at the sortedStreetViewCommentList
+    const filteredSortedCommentsList = sortedStreetViewCommentList.filter(
+      (_, index) => !selectedIndices.includes(index),
+    );
+
+    commentsTable.resetRowSelection(); // Reset selected rows
+    setStreetViewCommentList(filteredSortedCommentsList);
   };
 
   // Prepare a csv file from sortedStreetViewCommentsList
@@ -133,7 +185,16 @@ export default function Comments() {
       <div className="mt-2">
         <CommentsTable table={commentsTable} />
       </div>
-      <div className="mt-2 w-full flex justify-end text-gray-400">
+      <div className="mt-2 w-full flex justify-between text-gray-400">
+        <p className="text-red-300 text-left">
+          ❌{' '}
+          <span
+            className="hover:underline cursor-pointer"
+            onClick={handleDeleteSelected}
+          >
+            Delete selected
+          </span>
+        </p>
         <ColumnVisibilityControl
           table={commentsTable}
           columnIds={['latLngString', 'heading']}
