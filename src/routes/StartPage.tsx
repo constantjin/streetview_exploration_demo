@@ -72,12 +72,14 @@ export default function StartPage() {
           setGoogleMapsApiKey(event.target.value);
         }}
       />
-      <p
-        className="text-red-400 text-right cursor-pointer hover:underline mb-6"
-        onClick={() => setGoogleMapsApiKey('')}
-      >
-        Delete stored API key
-      </p>
+      <div className="w-full flex flex-row justify-end">
+        <p
+          className="text-red-400 text-right cursor-pointer hover:underline mb-6"
+          onClick={() => setGoogleMapsApiKey('')}
+        >
+          Delete stored API key
+        </p>
+      </div>
 
       {showCoordinateMenu ? (
         <div className="mb-1">
@@ -145,20 +147,30 @@ export default function StartPage() {
           ❌ {validationErrorMessage}
         </p>
       )}
-      <p
-        className="text-bold text-2xl text-white text-right hover:text-yellow-500 cursor-pointer"
-        onClick={validateInputBeforeStart}
-      >
-        » ✈️ Explore
-      </p>
-      <p className="font-thin text-white text-left mt-2 hover:underline">
-        <a
-          href="https://github.com/constantjin/streetview_exploration_demo"
-          target="_blank"
-        >
-          🔗Github
-        </a>
-      </p>
+      <div className="w-full flex flex-row justify-end">
+        <p className="text-bold text-2xl text-white text-right">
+          » ✈️
+          <span
+            className="hover:text-yellow-500 cursor-pointer"
+            onClick={validateInputBeforeStart}
+          >
+            Explore
+          </span>
+        </p>
+      </div>
+      <div className="w-full flex flex-row justify-start">
+        <p className="font-thin text-white text-left mt-2">
+          🔗
+          <span className="hover:underline">
+            <a
+              href="https://github.com/constantjin/streetview_exploration_demo"
+              target="_blank"
+            >
+              Github
+            </a>
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
