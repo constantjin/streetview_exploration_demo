@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import dayjs from 'dayjs';
 
 import {
   base64EncodedImageAtom,
@@ -48,7 +49,7 @@ export default function CapturePreview() {
         setValidationErrorMessage('Comment is empty');
       } else {
         setValidationErrorMessage('');
-        const timestamp = performance.now();
+        const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss'); // now as a formatted string
         const city = initialLocation.city;
         const latLngString = streetViewRef?.getPosition()?.toString();
         const heading = streetViewRef?.getPov().heading;

@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-
 interface ILatLng {
   lat: number;
   lng: number;
@@ -25,7 +24,7 @@ interface IActionHandlerOptions {
 }
 
 interface IStreetViewComment {
-  timestamp: number;
+  timestamp: string;
   id: string;
   city: string;
   comment: string;

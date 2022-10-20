@@ -8,6 +8,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import dayjs from 'dayjs';
 
 import { streetViewCommentListAtom } from '../stores';
 
@@ -18,7 +19,9 @@ import PaginationControl from '../components/PaginationControl';
 export default function Comments() {
   const streetViewCommentList = useAtomValue(streetViewCommentListAtom);
   const sortedStreetViewCommentList = streetViewCommentList.sort(
-    (comment1, comment2) => comment2.timestamp - comment1.timestamp,
+    // Sort comments by timestamp in a decending order (lastest one goes first)
+    (comment1, comment2) =>
+      dayjs(comment2.timestamp).isAfter(dayjs(comment1.timestamp)) ? 1 : -1,
   );
 
   const columnHelper = createColumnHelper<IStreetViewComment>();
