@@ -11,6 +11,7 @@
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",
     "@tanstack/react-table": "^8.5.15",
+    "dayjs": "^1.11.5",
     "html2canvas": "^1.4.1",
     "jotai": "^1.8.5",
     "optics-ts": "^2.3.0",
