@@ -54,11 +54,11 @@ export default function CapturePreview() {
         const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss'); // now as a formatted string
         const city = initialLocation.city;
         const latLngString = streetViewRef?.getPosition()?.toString();
-        const heading = streetViewRef?.getPov().heading;
+        const originalHeading = streetViewRef?.getPov().heading;
 
         // .getPosition() and .getPov() are potentially nullable
         // Practically they should not be null, so maybe non-null assertion operator is OK?
-        if (!(latLngString && heading)) {
+        if (!(latLngString && originalHeading)) {
           setValidationErrorMessage(
             'Street View error(s). Please refresh this page',
           );
@@ -76,7 +76,9 @@ export default function CapturePreview() {
               id: commentData.id,
               comment: commentData.comment,
               latLngString,
-              heading,
+              // Round headings to 3 decimal points
+              // Reference: https://stackoverflow.com/questions/33429136/round-to-3-decimal-points-in-javascript-jquery
+              heading: Math.round(originalHeading * 1000) / 1000,
             },
           ]);
         }
