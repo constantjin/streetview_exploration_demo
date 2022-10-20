@@ -19,6 +19,8 @@ Followings are the packages that helped me _a lot_ for this project:
 - [Jotai](https://github.com/pmndrs/jotai)
 - [optic-ts](https://github.com/akheron/optics-ts)
 - [@googlemaps/react-wrapper](https://github.com/googlemaps/react-wrapper)
+- [Day.js](https://github.com/iamkun/dayjs/)
+- [@tanstack/react-table](https://github.com/TanStack/table)
 
 ## Usage
 
